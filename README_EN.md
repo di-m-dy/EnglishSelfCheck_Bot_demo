@@ -17,6 +17,14 @@ Telegram bot using aiogram for self-checking learned English phrases.
 
 This bot is designed to work with your own memory, specifically for remembering English words, phrases, or expressions. The bot template can be adapted for any memory-related task. Add everything you want to remember and repeat later: revising learned material, fleeting impressions. One social function of this template could be an application for dementia prevention.
 
+![pic](static/for_readme/start.gif)
+
+![pic](static/for_readme/lets_start.gif)
+
+![pic](static/for_readme/settings.gif)
+
+![pic](static/for_readme/audio.gif)
+
 ## How the Bot Works:
 
 - You add any text in English, and then you will be prompted to enter the translation. You can also add phrases via voice message.
