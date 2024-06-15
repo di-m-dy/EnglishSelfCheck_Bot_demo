@@ -7,7 +7,7 @@
 
 ![pic](static/for_readme/header.gif)
 
-[README - English](README_EN.md)
+[README - English](README)
 
 ## Краткое описание:
 
