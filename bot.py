@@ -46,38 +46,53 @@ async def send_message():
                 if random_task % 3 == 0:
                     random_data = random.choice(voice_content)
                     file_id = random_data.get('file_id')
+                    try:
+                        await bot.send_voice(
+                            user_id,
+                            file_id,
+                            caption="Listen to the voice message and <b>reply</b> with the translated text.",
+                            parse_mode='HTML'
+                        )
+                    except Exception as e:
+                        await bot.send_message(ADMIN_ID, f"Try send voice to {user_id} Error: {e}")
+                else:
+                    random_data = random.choice(content)
+                    en = random_data.get('en', 'No words')
+                    try:
+                        await bot.send_message(
+                            user_id,
+                            f"<b>Reply to this message</b> with the translation into Russian:\n\n<b>«{en}»</b>",
+                            parse_mode='HTML')
+                    except Exception as e:
+                        await bot.send_message(ADMIN_ID, f"Try send message to {user_id} Error: {e}")
+            elif content:
+                random_data = random.choice(content)
+                en = random_data.get('en', 'No words')
+                try:
+                    await bot.send_message(
+                        user_id,
+                        f"<b>Reply to this message</b> with the translation into Russian:\n\n<b>«{en}»</b>",
+                        parse_mode='HTML'
+                    )
+                except Exception as e:
+                    await bot.send_message(ADMIN_ID, f"Try send message to {user_id} Error: {e}")
+            elif voice_content:
+                random_data = random.choice(voice_content)
+                file_id = random_data.get('file_id')
+                try:
                     await bot.send_voice(
                         user_id,
                         file_id,
                         caption="Listen to the voice message and <b>reply</b> with the translated text.",
                         parse_mode='HTML'
                     )
-                else:
-                    random_data = random.choice(content)
-                    en = random_data.get('en', 'No words')
-                    await bot.send_message(
-                        user_id,
-                        f"<b>Reply to this message</b> with the translation into Russian:\n\n<b>«{en}»</b>",
-                        parse_mode='HTML')
-            elif content:
-                random_data = random.choice(content)
-                en = random_data.get('en', 'No words')
-                await bot.send_message(
-                    user_id,
-                    f"<b>Reply to this message</b> with the translation into Russian:\n\n<b>«{en}»</b>",
-                    parse_mode='HTML'
-                )
-            elif voice_content:
-                random_data = random.choice(voice_content)
-                file_id = random_data.get('file_id')
-                await bot.send_voice(
-                    user_id,
-                    file_id,
-                    caption="Listen to the voice message and <b>reply</b> with the translated text.",
-                    parse_mode='HTML'
-                )
+                except Exception as e:
+                    await bot.send_message(ADMIN_ID, f"Try send voice to {user_id} Error: {e}")
             else:
-                await bot.send_message(user_id, "You don't have any words. Please, add them.")
+                try:
+                    await bot.send_message(user_id, "You don't have any words. Please, add them.")
+                except Exception as e:
+                    await bot.send_message(ADMIN_ID, f"Try send default message to {user_id} Error: {e}")
             if len(users) > 100:
                 await asyncio.sleep(0.2)
 
