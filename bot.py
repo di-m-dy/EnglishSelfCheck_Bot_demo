@@ -88,12 +88,16 @@ async def scheduler():
         await asyncio.sleep(1200)
 
 
+async def on_startup():
+    asyncio.create_task(scheduler())
+
+
 async def main():
     """
     en: Start the bot
     ru: Запускаем бота
     """
-    asyncio.create_task(scheduler())
+    dp.startup.register(on_startup)
     await dp.start_polling(bot)
 
 
