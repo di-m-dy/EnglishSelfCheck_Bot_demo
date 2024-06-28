@@ -6,6 +6,7 @@ import asyncio
 import random
 import logging
 from aiogram import Bot, Dispatcher
+from aiogram.exceptions import TelegramForbiddenError
 
 
 from handlers import router
@@ -53,8 +54,8 @@ async def send_message():
                             caption="Listen to the voice message and <b>reply</b> with the translated text.",
                             parse_mode='HTML'
                         )
-                    except Exception as e:
-                        await bot.send_message(ADMIN_ID, f"Try send voice to {user_id} Error: {e}")
+                    except TelegramForbiddenError as e:
+                        db.delete_value('users', 'user_id', user_id)
                 else:
                     random_data = random.choice(content)
                     en = random_data.get('en', 'No words')
@@ -63,8 +64,8 @@ async def send_message():
                             user_id,
                             f"<b>Reply to this message</b> with the translation into Russian:\n\n<b>«{en}»</b>",
                             parse_mode='HTML')
-                    except Exception as e:
-                        await bot.send_message(ADMIN_ID, f"Try send message to {user_id} Error: {e}")
+                    except TelegramForbiddenError as e:
+                        db.delete_value('users', 'user_id', user_id)
             elif content:
                 random_data = random.choice(content)
                 en = random_data.get('en', 'No words')
@@ -74,8 +75,8 @@ async def send_message():
                         f"<b>Reply to this message</b> with the translation into Russian:\n\n<b>«{en}»</b>",
                         parse_mode='HTML'
                     )
-                except Exception as e:
-                    await bot.send_message(ADMIN_ID, f"Try send message to {user_id} Error: {e}")
+                except TelegramForbiddenError as e:
+                    db.delete_value('users', 'user_id', user_id)
             elif voice_content:
                 random_data = random.choice(voice_content)
                 file_id = random_data.get('file_id')
@@ -86,13 +87,13 @@ async def send_message():
                         caption="Listen to the voice message and <b>reply</b> with the translated text.",
                         parse_mode='HTML'
                     )
-                except Exception as e:
-                    await bot.send_message(ADMIN_ID, f"Try send voice to {user_id} Error: {e}")
+                except TelegramForbiddenError as e:
+                    db.delete_value('users', 'user_id', user_id)
             else:
                 try:
                     await bot.send_message(user_id, "You don't have any words. Please, add them.")
-                except Exception as e:
-                    await bot.send_message(ADMIN_ID, f"Try send default message to {user_id} Error: {e}")
+                except TelegramForbiddenError as e:
+                    db.delete_value('users', 'user_id', user_id)
             if len(users) > 100:
                 await asyncio.sleep(0.2)
 
